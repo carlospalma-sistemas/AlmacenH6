@@ -1,0 +1,31 @@
+REQUISITOS DEL SISTEMA
+1. El sistema debe permitir el registro de productos que se venden en la tienda. La información del producto incluye:
+- tipo ( aseo o alimento)
+- nombre: descripción del producto
+- marca:  empresa que fabrica el producto
+- presentación: descripción de la presentación del prod
+- cantidad: cantidad unitaria del prod
+- precio: valor comercial unitario del producto
+- id: identificador unico del prod
+
+2. El sistema debe permitir en el registro de productos las siguientes operaciones: 
+- Ingreso de producto: debe ingresar un nuevo producto
+- Eliminación de producto: debe permitir borrar un producto
+- Modificación de la cantidad de producto: para procesos de adquisición o venta de productos
+- Modificación del precio de producto: para procesos de adquisición o venta de productos
+- Consulta de productos
+
+
+
+REQUERIMIENTOS DEL USUARIO
+1. Como dueño de la tienda, requiero manejar la info de los productos que vendo para llevar un registro del inventario que manejo. Dentro de la info, requiero los siguientes datos: 
+- tipo ( aseo o alimento)
+- nombre: descripción del producto
+- marca:  empresa que fabrica el producto
+- presentación: descripción de la presentación del prod
+- cantidad: cantidad unitaria del prod
+- precio: valor comercial unitario del producto
+- id: identificador unico del prod
+
+2. Como dueño de la tienda, requiero ingresar productos, eliminar productos, modificar cantidad, modificar precio y consultar los productos que tengo en el almacen, con el fin de llevar un control de los datos de cada producto.
+
