@@ -8,4 +8,6 @@ comment3.params=
 comment3.target=void\ ingresarProducto()
 comment4.params=
 comment4.target=void\ mostrarProductos()
-numComments=5
+comment5.params=
+comment5.target=void\ buscarProductos()
+numComments=6

@@ -6,7 +6,8 @@ public class Bodega
 
     public Bodega() 
     {
-        this.listaProductos = new ArrayList<Producto>();
+        ArchivoProductos a = new ArchivoProductos();
+        this.listaProductos = a.cargarProductos();
     }
     
     public ArrayList<Producto> getListaProductos()
@@ -17,6 +18,8 @@ public class Bodega
     public void anadirProducto(Producto p) 
     {
         this.listaProductos.add(p);
+        ArchivoProductos a = new ArchivoProductos();
+        a.guardarProducto(p.toCSV());
     }
 
     public Producto getProducto(int id) 
@@ -29,6 +32,19 @@ public class Bodega
             }
         }
         return null;
+    }
+    
+    public ArrayList<Producto> buscarProductos(String criterio)
+    {
+        ArrayList<Producto> productosEncontrados = new ArrayList<Producto>();
+        for (Producto p: this.listaProductos)
+        {
+            if (p.getNombre().equals(criterio) || p.getMarca().equals(criterio) || p.getPresentacion().equals(criterio) || (p.getId()+"").equals(criterio))
+            {
+                productosEncontrados.add(p);
+            }
+        }
+        return productosEncontrados;
     }
     
     public void eliminarProducto(int id)

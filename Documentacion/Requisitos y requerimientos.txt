@@ -25,7 +25,7 @@ REQUERIMIENTOS DEL USUARIO
 - presentación: descripción de la presentación del prod
 - cantidad: cantidad unitaria del prod
 - precio: valor comercial unitario del producto
-- id: identificador unico del prod
+- id: identificador unico del prod (secuencial, aleatoria, codigo directamente)
 
 2. Como dueño de la tienda, requiero ingresar productos, eliminar productos, modificar cantidad, modificar precio y consultar los productos que tengo en el almacen, con el fin de llevar un control de los datos de cada producto.
 
