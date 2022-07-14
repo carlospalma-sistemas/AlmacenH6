@@ -1,27 +1,61 @@
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Presentacion
 {
-    private String menuPrincipal;
+    private String [] menuPrincipal;
+    private String menuProductos;
     private Bodega bodega;
     
     public Presentacion()
     {
         this.bodega = new Bodega();
-        this.menuPrincipal = "MENU PRINCIPAL \n"+
+        
+        String [] opciones = { "Gestionar productos", "Realizar venta", "Salir" };
+        this.menuPrincipal = opciones;
+        
+        this.menuProductos = "PRODUCTOS \n"+
                              "1. Ingresar producto \n" +
                              "2. Mostrar productos \n" +
                              "3. Buscar productos \n" +
-                             "0. Salir";
+                             "4. Surtir producto \n" +
+                             "0. Volver al menu principal";
     }
+    
     
     public void presentarMenuPrincipal() 
     {
         int opcion = 0;
         do
         {
-            opcion = Integer.parseInt(JOptionPane.showInputDialog(null, this.menuPrincipal));
+            Object o = JOptionPane.showInputDialog(null, "Seleccione una opción", "PROGRAMA DEL VECINO", JOptionPane.QUESTION_MESSAGE, null, this.menuPrincipal, this.menuPrincipal[0]);
+            opcion = Arrays.asList(this.menuPrincipal).indexOf(o);
+            switch (opcion) {
+                case 0:
+                    this.presentarMenuProductos();
+                    break;
+                case 1:
+                    
+                    break;
+                case 2:
+                    JOptionPane.showMessageDialog(null, "Muchas gracias", "Salir", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Opción incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        while(opcion != 2);
+    }
+    
+    
+    
+    public void presentarMenuProductos() 
+    {
+        int opcion = 0;
+        do
+        {
+            opcion = Integer.parseInt(JOptionPane.showInputDialog(null, this.menuProductos));
             switch (opcion)
             {
                 case 1:
@@ -33,8 +67,10 @@ public class Presentacion
                 case 3: 
                     buscarProductos();
                     break;
+                case 4:
+                    surtirProducto();
+                    break;
                 case 0:
-                    JOptionPane.showMessageDialog(null, "Muchas gracias", "Salir", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 default:
                     JOptionPane.showMessageDialog(null, "Opción incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
@@ -62,10 +98,12 @@ public class Presentacion
     public void mostrarProductos()
     {
         ArrayList<Producto> lista = this.bodega.getListaProductos();
+        String datosProductos = "";
         for (Producto p: lista)
         {
-            JOptionPane.showMessageDialog(null, p.toString(), "Producto en la bodega", JOptionPane.INFORMATION_MESSAGE);
+            datosProductos = datosProductos + p.toString() + "\n";
         }
+        JOptionPane.showMessageDialog(null, datosProductos, "Productos en la bodega", JOptionPane.INFORMATION_MESSAGE);
     }
     
     public void buscarProductos()
@@ -85,6 +123,16 @@ public class Presentacion
         {
             JOptionPane.showMessageDialog(null, datosProductos, "Productos encontrados", JOptionPane.INFORMATION_MESSAGE);    
         }
+    }
+    
+    public void surtirProducto()
+    {
+        this.buscarProductos();
+        int codigo = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite código del producto para surtido", "Surtir producto", JOptionPane.QUESTION_MESSAGE));
+        int cantidad = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese cantidad del producto para surtido", "Surtir producto", JOptionPane.QUESTION_MESSAGE));
+        this.bodega.incrementarProducto(codigo, cantidad);
+        Producto p = this.bodega.getProducto(codigo);
+        JOptionPane.showMessageDialog(null, p.mostrarInfo(), "Producto surtido", JOptionPane.INFORMATION_MESSAGE);
     }
     
 }

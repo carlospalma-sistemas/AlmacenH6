@@ -27,5 +27,14 @@ REQUERIMIENTOS DEL USUARIO
 - precio: valor comercial unitario del producto
 - id: identificador unico del prod (secuencial, aleatoria, codigo directamente)
 
-2. Como dueño de la tienda, requiero ingresar productos, eliminar productos, modificar cantidad, modificar precio y consultar los productos que tengo en el almacen, con el fin de llevar un control de los datos de cada producto.
+2. Como dueño de la tienda, requiero ingresar productos, eliminar productos, modificar cantidad, modificar precio, que tengo en el almacen, con el fin de llevar un control de los datos de cada producto.
+
+3. Como dueño de la tienda, requiero poder consultar los productos que tengo en mi tienda, con el fin de obtener info más precisa del inventario. Para ello, puedo usar algún criterio de búsqueda (por nombre, por tipo, por marca, por id) para obtener una lista de los productos que coincida y seleccionar uno para obtener una info más precisa.
+	
+
+
+
+
+
+
 

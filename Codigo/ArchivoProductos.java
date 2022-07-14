@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.nio.charset.Charset;
 
 public class ArchivoProductos
 {
@@ -16,9 +17,29 @@ public class ArchivoProductos
     
     public void guardarProducto(String texto)
     {
+        this.guardar(texto, true);
+    }
+    
+    public void actualizarLista(ArrayList<Producto> lista)
+    {
+        String texto = "";
+        for (int i=0; i<lista.size(); i++)
+        {
+            if (i != 0) 
+            {
+                texto = texto + "\n";
+            }
+            texto = texto + lista.get(i).toCSV();
+        }
+        this.guardar(texto, false);
+        
+    }
+    
+    private void guardar(String texto, boolean agregar) //True es para añadir un producto al final, false es para reemplazar todo el archivo
+    {
         try
         {
-            FileWriter writer = new FileWriter(this.archivo, true);
+            FileWriter writer = new FileWriter(this.archivo, Charset.forName("UTF-8"), agregar);
             PrintWriter cursor = new PrintWriter(writer);
             cursor.println(texto);
             cursor.flush();
@@ -30,6 +51,7 @@ public class ArchivoProductos
             
         }
     }
+    
     
     public ArrayList<Producto> cargarProductos()
     {

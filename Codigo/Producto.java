@@ -77,7 +77,7 @@ public class Producto
 
     public String toString()
     {
-        return "Cod:" +this.id+ " - Producto: "+this.nombre +" "+ this.marca + " - " +this.presentacion;
+        return "Cod:" +this.id+ " - Producto: "+this.nombre +" "+ this.marca + " - " +this.presentacion+" Precio: "+this.precio+" Stock: "+this.cantidad;
     }
     
     public String mostrarInfo()
