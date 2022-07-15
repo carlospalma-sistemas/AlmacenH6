@@ -36,7 +36,7 @@ public class Presentacion
                     this.presentarMenuProductos();
                     break;
                 case 1:
-                    
+                    this.realizarVenta();
                     break;
                 case 2:
                     JOptionPane.showMessageDialog(null, "Muchas gracias", "Salir", JOptionPane.INFORMATION_MESSAGE);
@@ -48,8 +48,7 @@ public class Presentacion
         while(opcion != 2);
     }
     
-    
-    
+        
     public void presentarMenuProductos() 
     {
         int opcion = 0;
@@ -106,7 +105,7 @@ public class Presentacion
         JOptionPane.showMessageDialog(null, datosProductos, "Productos en la bodega", JOptionPane.INFORMATION_MESSAGE);
     }
     
-    public void buscarProductos()
+    public boolean buscarProductos()
     {
         String buscar = JOptionPane.showInputDialog(null, "Ingrese texto para buscar producto (nombre, tipo, presentación, codigo)", "Buscar producto", JOptionPane.QUESTION_MESSAGE);
         ArrayList<Producto> lista = this.bodega.buscarProductos(buscar);
@@ -118,10 +117,12 @@ public class Presentacion
         if (datosProductos.equals(""))
         {
             JOptionPane.showMessageDialog(null, "No se encontraron productos con ese criterio", "Productos No encontrados", JOptionPane.WARNING_MESSAGE);
+            return false;
         }
         else 
         {
             JOptionPane.showMessageDialog(null, datosProductos, "Productos encontrados", JOptionPane.INFORMATION_MESSAGE);    
+            return true;
         }
     }
     
@@ -133,6 +134,43 @@ public class Presentacion
         this.bodega.incrementarProducto(codigo, cantidad);
         Producto p = this.bodega.getProducto(codigo);
         JOptionPane.showMessageDialog(null, p.mostrarInfo(), "Producto surtido", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void realizarVenta()
+    {
+        Venta v = new Venta();
+        boolean continuarVenta = false;
+        do
+        {
+            boolean encontrado = this.buscarProductos();
+            if (encontrado)
+            {
+                int codigo = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite código del producto para venta", "Vender producto", JOptionPane.QUESTION_MESSAGE));
+                Producto p = this.bodega.getProducto(codigo);
+                //System.out.println("En bodega: "+p.mostrarInfo());
+                int cantidad = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese cantidad del producto para venta", "Vender producto", JOptionPane.QUESTION_MESSAGE));
+                v.agregarProductoAlCarrito(p, cantidad);
+                JOptionPane.showMessageDialog(null, p.mostrarInfo(), "Producto añadido al carrito", JOptionPane.INFORMATION_MESSAGE);
+                int confirmacion = JOptionPane.showConfirmDialog(null, "Desea añadir más productos al carrito?", "Continuar venta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                continuarVenta = (confirmacion == JOptionPane.YES_OPTION) ? true : false;
+            }
+            else
+            {
+                continuarVenta = true;
+            }
+        }
+        while(continuarVenta);
+        int total = v.calcularTotalVenta();
+        int confirmaVenta = JOptionPane.showConfirmDialog(null, "El total a pagar es $"+total+"\nDesea pagar?", "Finalizar venta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE); 
+        if (confirmaVenta == JOptionPane.YES_OPTION)
+        {
+            v.finalizarVenta();
+            JOptionPane.showMessageDialog(null, "Gracias por su compra", "Venta realizada", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else 
+        {
+            JOptionPane.showMessageDialog(null, "Ha anulado su compra", "Venta cancelada", JOptionPane.WARNING_MESSAGE);
+        }
     }
     
 }

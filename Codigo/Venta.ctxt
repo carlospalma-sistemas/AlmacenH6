@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=Venta
+comment1.params=
+comment1.target=Venta()
+comment2.params=p\ cant
+comment2.target=void\ agregarProductoAlCarrito(Producto,\ int)
+comment3.params=
+comment3.target=int\ calcularTotalVenta()
+comment4.params=
+comment4.target=void\ finalizarVenta()
+numComments=5
