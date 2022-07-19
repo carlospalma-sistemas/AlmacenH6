@@ -6,66 +6,90 @@ import java.sql.ResultSet;
 public class Conexion
 {
     private String conectorInstalado = "jdbc:sqlite:";
-    private String baseDatos = "..\\BaseDatos\\basedatos.db";
-    private Connection conexion;
-    private Statement ejecutor;
+    private String baseDatos = "..\\Basedatos\\basedatos.db";
+    private Connection conexion;  //CONEXION CON LA BD
+    private Statement ejecutorSQL;   //SENTENCIAS SQL
+    private ResultSet rs;
     
-    public void crearConexion()
+    public boolean crearConexion()
     {
         try
         {
-            conexion = DriverManager.getConnection(conectorInstalado+baseDatos);
-            ejecutor = conexion.createStatement();
-            ejecutor.setQueryTimeout(30);  // set timeout to 30 sec.
-            System.out.println("conexión creada: "+conexion);
+            conexion = DriverManager.getConnection(conectorInstalado + baseDatos);
+            ejecutorSQL = conexion.createStatement();
+            ejecutorSQL.setQueryTimeout(30);
+            return true;
         }
         catch(Exception e)
         {
-            System.out.println(e);
+            return false;
         }
     }
     
-    
-    public void cerrarConexion()
+    public boolean cerrarConexion()
     {
-        try {
-            conexion.close();
-        }
-        catch(Exception e) {
-            System.out.println(e);
-        }
-    }
-    
-    
-    public ResultSet ejecutarQuery(String sql)
-    {
-        ResultSet rs = null;
         try
         {
-            rs = ejecutor.executeQuery(sql);
+            conexion.close();
+            return true;
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            return false;
         }
-        return rs;
     }
     
-    
-    public ResultSet ejecutarUpdate(String sql)
+    public void insertar(String sql)
     {
-        ResultSet rs = null;
         try
         {
-            int cant = ejecutor.executeUpdate(sql);
-            if (cant > 0) {
-                rs = ejecutor.getGeneratedKeys();
+            int cant = ejecutorSQL.executeUpdate(sql);
+            if (cant > 0) 
+            {
+                rs = ejecutorSQL.getGeneratedKeys();
             }
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            
         }
-        return rs;
     }
+    
+    public void actualizar(String sql)
+    {
+        try
+        {
+            int cant = ejecutorSQL.executeUpdate(sql);
+        }
+        catch (Exception e)
+        {
+            
+        }
+    }
+    
+    public void consultar(String sql)
+    {
+        try
+        {
+            rs = ejecutorSQL.executeQuery(sql);
+        }
+        catch (Exception e)
+        {
+            
+        }
+    }
+    
+    public void borrar(String sql)
+    {
+        try
+        {
+            int cant = ejecutorSQL.executeUpdate(sql);
+        }
+        catch (Exception e)
+        {
+            
+        }
+    }
+    
+    
 }
