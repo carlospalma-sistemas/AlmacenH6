@@ -47,7 +47,7 @@ public class Bodega
         Conexion con = new Conexion();
         con.crearConexion();
         String sql = "INSERT INTO TProductos(codigobarras, tipo, nombre, marca, presentacion, precio, cantidad) "+
-                     "VALUES ("+p.getCodigobarras()+", \""+p.getTipo()+"\",  \""+p.getNombre()+"\",  \""+p.getMarca()+"\", \""+p.getPresentacion()+"\", "+p.getPrecio()+", "+p.getCantidad()+")" ;
+                     "VALUES ("+p.getCodigoBarras()+", \""+p.getTipo()+"\",  \""+p.getNombre()+"\",  \""+p.getMarca()+"\", \""+p.getPresentacion()+"\", "+p.getPrecio()+", "+p.getCantidad()+")" ;
         con.insertar(sql);                 
         //OPERACIONES
         con.cerrarConexion();

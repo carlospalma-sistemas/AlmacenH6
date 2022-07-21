@@ -32,7 +32,7 @@ public class Venta
         for (Producto p: this.carritoCompra)
         {
             //System.out.println("En venta: "+p.mostrarInfo());
-            b.disminuirProducto(p.getId(), p.getCantidad()); 
+            b.disminuirProducto(p.getCodigoBarras(), p.getCantidad()); 
         }
     }
 }

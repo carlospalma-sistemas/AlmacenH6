@@ -38,7 +38,7 @@ public class Producto
         this.codigobarras = codigobarras;
     }
 
-    public int getCodigobarras() 
+    public int getCodigoBarras() 
     {
         return this.codigobarras;
     }
