@@ -80,7 +80,7 @@ public class Presentacion
     
     public void ingresarProducto()
     {
-        int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese código de producto", "Nuevo producto", JOptionPane.QUESTION_MESSAGE));
+        int codigobarras = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese código de producto", "Nuevo producto", JOptionPane.QUESTION_MESSAGE));
         String [] tipos = {"Aseo", "Alimento"};
         int tipo = JOptionPane.showOptionDialog(null, "Ingrese tipo de producto", "Nuevo producto", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, tipos, tipos[0]);
         String nombre = JOptionPane.showInputDialog(null, "Ingrese nombre de producto", "Nuevo producto", JOptionPane.QUESTION_MESSAGE);
@@ -89,7 +89,7 @@ public class Presentacion
         int precio = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese precio de producto", "Nuevo producto", JOptionPane.QUESTION_MESSAGE));
         int cantidad = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese cantidad de producto", "Nuevo producto", JOptionPane.QUESTION_MESSAGE));
         
-        Producto p = new Producto(id, tipos[tipo], nombre, marca, presentacion, cantidad, precio);
+        Producto p = new Producto(0, codigobarras, tipos[tipo], nombre, marca, presentacion, cantidad, precio);
         this.bodega.anadirProducto(p);
         JOptionPane.showMessageDialog(null, "Producto creado y añadido a la lista", "Producto creado", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -131,7 +131,8 @@ public class Presentacion
         this.buscarProductos();
         int codigo = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite código del producto para surtido", "Surtir producto", JOptionPane.QUESTION_MESSAGE));
         int cantidad = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese cantidad del producto para surtido", "Surtir producto", JOptionPane.QUESTION_MESSAGE));
-        this.bodega.incrementarProducto(codigo, cantidad);
+        int precio = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese nuevo precio del producto para surtido", "Surtir producto", JOptionPane.QUESTION_MESSAGE));
+        this.bodega.incrementarProducto(codigo, cantidad, precio);
         Producto p = this.bodega.getProducto(codigo);
         JOptionPane.showMessageDialog(null, p.mostrarInfo(), "Producto surtido", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -147,10 +148,16 @@ public class Presentacion
             {
                 int codigo = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite código del producto para venta", "Vender producto", JOptionPane.QUESTION_MESSAGE));
                 Producto p = this.bodega.getProducto(codigo);
-                //System.out.println("En bodega: "+p.mostrarInfo());
                 int cantidad = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese cantidad del producto para venta", "Vender producto", JOptionPane.QUESTION_MESSAGE));
-                v.agregarProductoAlCarrito(p, cantidad);
-                JOptionPane.showMessageDialog(null, p.mostrarInfo(), "Producto añadido al carrito", JOptionPane.INFORMATION_MESSAGE);
+                if (cantidad > p.getCantidad())
+                {
+                    JOptionPane.showMessageDialog(null, "No puedo vender esa cantidad", "Producto no añadido", JOptionPane.WARNING_MESSAGE);
+                }
+                else 
+                {
+                    v.agregarProductoAlCarrito(p, cantidad);
+                    JOptionPane.showMessageDialog(null, p.mostrarInfo(), "Producto añadido al carrito", JOptionPane.INFORMATION_MESSAGE);    
+                }
                 int confirmacion = JOptionPane.showConfirmDialog(null, "Desea añadir más productos al carrito?", "Continuar venta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 continuarVenta = (confirmacion == JOptionPane.YES_OPTION) ? true : false;
             }

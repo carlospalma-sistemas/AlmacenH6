@@ -34,6 +34,5 @@ public class Venta
             //System.out.println("En venta: "+p.mostrarInfo());
             b.disminuirProducto(p.getId(), p.getCantidad()); 
         }
-        b.actualizarListaEnArchivo();
     }
 }

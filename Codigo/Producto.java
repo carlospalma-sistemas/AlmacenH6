@@ -1,6 +1,7 @@
 public class Producto 
 {
     private int id;
+    private int codigobarras;
     private String tipo;
     private String nombre;
     private String marca;
@@ -11,6 +12,7 @@ public class Producto
     public Producto() 
     {
         this.id = 0;
+        this.codigobarras = 0;
         this.tipo = "";
         this.nombre = "";
         this.marca = "";
@@ -19,15 +21,26 @@ public class Producto
         this.precio = 0;
     }
 
-    public Producto(int id, String tipo, String nombre, String marca, String presentacion, int cantidad, int precio) 
+    public Producto(int id, int codigobarras, String tipo, String nombre, String marca, String presentacion, int cantidad, int precio) 
     {
         this.id = id;
+        this.codigobarras = codigobarras;
         this.tipo = tipo;
         this.nombre = nombre;
         this.marca = marca;
         this.presentacion = presentacion;
         this.cantidad = cantidad;
         this.precio = precio;
+    }
+    
+    public void setCodigoBarras(int codigobarras) 
+    {
+        this.codigobarras = codigobarras;
+    }
+
+    public int getCodigobarras() 
+    {
+        return this.codigobarras;
     }
 
     public void setCantidad(int cantidad) 
@@ -77,7 +90,7 @@ public class Producto
 
     public String toString()
     {
-        return "Cod:" +this.id+ " - Producto: "+this.nombre +" "+ this.marca + " - " +this.presentacion+" Precio: "+this.precio+" Stock: "+this.cantidad;
+        return "Cod:" +this.codigobarras+ " - Producto: "+this.nombre +" "+ this.marca + " - " +this.presentacion+" Precio: "+this.precio+" Stock: "+this.cantidad;
     }
     
     public String mostrarInfo()

@@ -44,50 +44,63 @@ public class Conexion
         try
         {
             int cant = ejecutorSQL.executeUpdate(sql);
-            if (cant > 0) 
+        }
+        catch (Exception e)
+        {
+            
+        }
+    }
+    
+    public boolean actualizar(String sql)
+    {
+        try
+        {
+            int cant = ejecutorSQL.executeUpdate(sql);
+            if (cant > 0)
             {
-                rs = ejecutorSQL.getGeneratedKeys();
+                return true;
+            }
+            else 
+            {
+                return false;
             }
         }
         catch (Exception e)
         {
-            
+            return false;
         }
     }
     
-    public void actualizar(String sql)
-    {
-        try
-        {
-            int cant = ejecutorSQL.executeUpdate(sql);
-        }
-        catch (Exception e)
-        {
-            
-        }
-    }
-    
-    public void consultar(String sql)
+    public ResultSet consultar(String sql)
     {
         try
         {
             rs = ejecutorSQL.executeQuery(sql);
+            return rs;
         }
         catch (Exception e)
         {
-            
+            return null;
         }
     }
     
-    public void borrar(String sql)
+    public boolean borrar(String sql)
     {
         try
         {
             int cant = ejecutorSQL.executeUpdate(sql);
+            if (cant > 0)
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
         }
         catch (Exception e)
         {
-            
+            return false;
         }
     }
     
