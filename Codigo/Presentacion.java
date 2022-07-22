@@ -20,6 +20,7 @@ public class Presentacion
                              "2. Mostrar productos \n" +
                              "3. Buscar productos \n" +
                              "4. Surtir producto \n" +
+                             "5. Eliminar producto \n" +
                              "0. Volver al menu principal";
     }
     
@@ -68,6 +69,9 @@ public class Presentacion
                     break;
                 case 4:
                     surtirProducto();
+                    break;
+                case 5:
+                    eliminarProducto();
                     break;
                 case 0:
                     break;
@@ -135,6 +139,19 @@ public class Presentacion
         this.bodega.incrementarProducto(codigo, cantidad, precio);
         Producto p = this.bodega.getProducto(codigo);
         JOptionPane.showMessageDialog(null, p.mostrarInfo(), "Producto surtido", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void eliminarProducto()
+    {
+        this.buscarProductos();
+        int codigo = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite código del producto para eliminar", "Eliminar producto", JOptionPane.QUESTION_MESSAGE));
+        Producto p = this.bodega.getProducto(codigo);
+        int confirmacion = JOptionPane.showConfirmDialog(null, "Está seguro de eliminar el producto "+p.getNombre()+" "+p.getMarca()+"?", "Eliminar producto", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (confirmacion == JOptionPane.YES_OPTION)
+        {
+            this.bodega.eliminarProducto(codigo);
+            JOptionPane.showMessageDialog(null, p.mostrarInfo(), "Producto eliminado", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
     
     public void realizarVenta()

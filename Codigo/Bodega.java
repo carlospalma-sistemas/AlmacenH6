@@ -121,9 +121,14 @@ public class Bodega
         return this.listaProductos;
     }
     
-    public void eliminarProducto(int id)
+    public void eliminarProducto(int codigo)
     {
-        
+        Conexion con = new Conexion();
+        con.crearConexion();
+        String sql = "DELETE FROM TProductos "+
+                     "WHERE codigobarras = "+codigo;
+        con.borrar(sql);
+        con.cerrarConexion();
     }
 
     public void incrementarProducto(int codigo, int cant, int precio) 
