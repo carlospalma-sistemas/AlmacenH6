@@ -1,24 +1,27 @@
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Color;
+import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.BorderFactory;
-import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 public class Pantalla extends JFrame
 {
-    JLabel labelTitulo, labelCodigo, labelNombre, labelMarca, labelPresent, labelTipo, labelCant, labelPrecio, labelBuscar;
     JTextField txtCodigo, txtNombre, txtMarca, txtPresent, txtCant, txtPrecio, txtBuscar;
     JComboBox comboTipo;
     JButton btnAgregar, btnActualizar, btnLimpiar, btnEliminar, btnFiltrar, btnQuitarFiltro;
+    JTable tablaProductos;
     
     public Pantalla()
     {
@@ -46,14 +49,19 @@ public class Pantalla extends JFrame
         getContentPane().add(panelTabla);
         
         //Componentes del panel del banner
-        labelTitulo = new JLabel("Sistema de Inventario y POS");
+        JLabel labelTitulo = new JLabel("Sistema de Inventario y POS");
         labelTitulo.setBounds(20, 20, 500, 60);
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 28));
         labelTitulo.setForeground(Color.WHITE);
         panelBanner.add(labelTitulo);
         
+        Image imagen = new ImageIcon("imgs\\logo_shop.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+        JLabel labelLogo = new JLabel(new ImageIcon(imagen));
+        labelLogo.setBounds(1050, 10, 84, 80);
+        panelBanner.add(labelLogo);
+        
         //Componentes del panel del formulario
-        labelCodigo = new JLabel("Codigo");
+        JLabel labelCodigo = new JLabel("Codigo");
         labelCodigo.setBounds(10, 20, 100, 30);
         panelFormulario.add(labelCodigo);
         
@@ -61,7 +69,7 @@ public class Pantalla extends JFrame
         txtCodigo.setBounds(140, 20, 300, 30);
         panelFormulario.add(txtCodigo);
         
-        labelNombre = new JLabel("Nombre");
+        JLabel labelNombre = new JLabel("Nombre");
         labelNombre.setBounds(10, 60, 100, 30);
         panelFormulario.add(labelNombre);
         
@@ -69,7 +77,7 @@ public class Pantalla extends JFrame
         txtNombre.setBounds(140, 60, 300, 30);
         panelFormulario.add(txtNombre);
         
-        labelMarca = new JLabel("Marca");
+        JLabel labelMarca = new JLabel("Marca");
         labelMarca.setBounds(10, 100, 100, 30);
         panelFormulario.add(labelMarca);
         
@@ -77,7 +85,7 @@ public class Pantalla extends JFrame
         txtMarca.setBounds(140, 100, 300, 30);
         panelFormulario.add(txtMarca);
         
-        labelPresent = new JLabel("Presentacion");
+        JLabel labelPresent = new JLabel("Presentacion");
         labelPresent.setBounds(10, 140, 100, 30);
         panelFormulario.add(labelPresent);
         
@@ -85,7 +93,7 @@ public class Pantalla extends JFrame
         txtPresent.setBounds(140, 140, 300, 30);
         panelFormulario.add(txtPresent);
         
-        labelTipo = new JLabel("Tipo");
+        JLabel labelTipo = new JLabel("Tipo");
         labelTipo.setBounds(10, 180, 100, 30);
         panelFormulario.add(labelTipo);
         
@@ -96,7 +104,7 @@ public class Pantalla extends JFrame
         comboTipo.setBounds(140, 180, 300, 30);
         panelFormulario.add(comboTipo);
         
-        labelCant = new JLabel("Cantidad");
+        JLabel labelCant = new JLabel("Cantidad");
         labelCant.setBounds(10, 220, 100, 30);
         panelFormulario.add(labelCant);
         
@@ -104,7 +112,7 @@ public class Pantalla extends JFrame
         txtCant.setBounds(140, 220, 300, 30);
         panelFormulario.add(txtCant);
 
-        labelPrecio = new JLabel("Precio");
+        JLabel labelPrecio = new JLabel("Precio");
         labelPrecio.setBounds(10, 260, 100, 30);
         panelFormulario.add(labelPrecio);
         
@@ -129,14 +137,14 @@ public class Pantalla extends JFrame
         panelFormulario.add(btnEliminar);
         
         //Componentes del panel de la tabla
-        Object[][] data = null;
-        String[] columnNames = {"Codigo", "Nombre", "Marca", "Presentación", "Tipo", "Cant", "Precio"};     
-        DefaultTableModel dtm= new DefaultTableModel(data, columnNames);
+        Object[][] datos = null;
+        String[] columnas = {"Codigo", "Nombre", "Marca", "Presentación", "Tipo", "Cant", "Precio"};     
+        DefaultTableModel dtm= new DefaultTableModel(datos, columnas);
         
-        JTable tabla = new JTable(dtm);
-        tabla.setPreferredScrollableViewportSize(new Dimension(715, 290));
-        tabla.setFillsViewportHeight(true);
-        JScrollPane scroll = new JScrollPane(tabla);
+        tablaProductos = new JTable(dtm);
+        tablaProductos.setPreferredScrollableViewportSize(new Dimension(715, 290));
+        tablaProductos.setFillsViewportHeight(true);
+        JScrollPane scroll = new JScrollPane(tablaProductos);
         
         JPanel contenidoTabla = new JPanel();
         contenidoTabla.setBounds(0, 0, 715, 290);
@@ -144,7 +152,7 @@ public class Pantalla extends JFrame
         contenidoTabla.add(scroll);
         panelTabla.add(contenidoTabla);
         
-        labelBuscar = new JLabel("Buscar por: ");
+        JLabel labelBuscar = new JLabel("Buscar por: ");
         labelBuscar.setBounds(10, 350, 100, 30);
         panelTabla.add(labelBuscar);
         
