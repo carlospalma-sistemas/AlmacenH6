@@ -14,7 +14,11 @@ public class Bodega
     {
         this.listaProductos.clear();
         Conexion con = new Conexion();
-        con.crearConexion();
+        if (con.crearConexion() == false) 
+        {
+            System.out.println("Conexión no generada");
+            return null;
+        }
         String sql = "SELECT id, codigobarras, tipo, nombre, marca, presentacion, precio, cantidad "+
                      "FROM TProductos ";
         ResultSet rs = con.consultar(sql);
