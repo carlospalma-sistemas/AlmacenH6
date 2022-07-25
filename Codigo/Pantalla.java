@@ -22,6 +22,7 @@ import javax.swing.ListSelectionModel;
 import java.util.ArrayList;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.UIManager;
 
 public class Pantalla extends JFrame
 {
@@ -82,7 +83,7 @@ public class Pantalla extends JFrame
 
         txtId = new JTextField();
         txtId.setBounds(140, 20, 300, 30);
-        txtId.setEnabled(false);
+        txtId.setEditable(false);
         panelFormulario.add(txtId);
         
         JLabel labelCodigo = new JLabel("Codigo");
@@ -126,6 +127,7 @@ public class Pantalla extends JFrame
         comboTipo.addItem("Aseo");
         comboTipo.addItem("Alimento");
         comboTipo.setBounds(140, 220, 300, 30);
+        UIManager.put("ComboBox.disabledForeground", Color.BLACK);
         panelFormulario.add(comboTipo);
 
         JLabel labelCant = new JLabel("Cantidad");
@@ -234,15 +236,19 @@ public class Pantalla extends JFrame
             {
                 public void valueChanged(ListSelectionEvent e) 
                 {
-                    int row = tablaProductos.getSelectedRow();
-                    int codigobarras = Integer.parseInt(dtm.getValueAt(row, 1).toString());
-                    cargarProductoEnFormulario(codigobarras);
+                    if (tablaProductos.getSelectedRowCount() > 0) 
+                    {
+                        int row = tablaProductos.getSelectedRow();
+                        int codigobarras = Integer.parseInt(dtm.getValueAt(row, 1).toString());
+                        cargarProductoEnFormulario(codigobarras);   
+                    }
                 }
             });
     }
 
     public void cargarTodosProductos()
     {
+        tablaProductos.clearSelection();
         txtBuscar.setText("");
         Bodega bodega = new Bodega();
         ArrayList<Producto> productos = bodega.getListaProductos();
@@ -256,6 +262,7 @@ public class Pantalla extends JFrame
 
     public void cargarProductosFiltrados()
     {
+        tablaProductos.clearSelection();
         if (txtBuscar.getText().equals(""))
         {
             JOptionPane.showMessageDialog(this, "Debe colocar un filtro para la búsqueda");
@@ -278,6 +285,12 @@ public class Pantalla extends JFrame
             JOptionPane.showMessageDialog(this, "Debe completar la información del producto");
             return;
         }
+        if (!txtId.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(this, "Ingrese información de un nuevo producto");
+            return;
+        }
+        
         int id = 0;
         int codigobarras = Integer.parseInt(txtCodigo.getText());
         String nombre = txtNombre.getText();
@@ -302,7 +315,8 @@ public class Pantalla extends JFrame
         txtPresent.setText("");
         comboTipo.setSelectedItem("");
         txtCant.setText("");
-        txtPrecio.setText("");        
+        txtPrecio.setText("");
+        activarFormulario(true);
     }
     
     
@@ -317,7 +331,17 @@ public class Pantalla extends JFrame
         txtPresent.setText(p.getPresentacion());
         comboTipo.setSelectedItem(p.getTipo());
         txtCant.setText(p.getCantidad() + "");
-        txtPrecio.setText(p.getPrecio() + "");   
+        txtPrecio.setText(p.getPrecio() + ""); 
+        activarFormulario(false);
+    }
+    
+    public void activarFormulario(boolean activar)
+    {
+        txtCodigo.setEditable(activar);
+        txtNombre.setEditable(activar);
+        txtMarca.setEditable(activar);
+        txtPresent.setEditable(activar);
+        comboTipo.setEnabled(activar);
     }
 }
 
