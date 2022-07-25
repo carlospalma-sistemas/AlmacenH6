@@ -3,6 +3,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -14,7 +16,13 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import javax.swing.Icon;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
+import javax.swing.ListSelectionModel;
+import java.util.ArrayList;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+
 
 public class Pantalla extends JFrame
 {
@@ -22,8 +30,16 @@ public class Pantalla extends JFrame
     JComboBox comboTipo;
     JButton btnAgregar, btnActualizar, btnLimpiar, btnEliminar, btnFiltrar, btnQuitarFiltro;
     JTable tablaProductos;
+    DefaultTableModel dtm;
     
     public Pantalla()
+    {
+        iniciarComponentes();
+        implementarListeners();
+        cargarTodosProductos();
+    }
+    
+    public void iniciarComponentes()
     {
         setBounds(100, 100, 1200, 550);
         setTitle("Almacen H6 - V2.0");
@@ -139,10 +155,11 @@ public class Pantalla extends JFrame
         //Componentes del panel de la tabla
         Object[][] datos = null;
         String[] columnas = {"Codigo", "Nombre", "Marca", "Presentación", "Tipo", "Cant", "Precio"};     
-        DefaultTableModel dtm= new DefaultTableModel(datos, columnas);
+        dtm= new DefaultTableModel(datos, columnas);
         
         tablaProductos = new JTable(dtm);
         tablaProductos.setPreferredScrollableViewportSize(new Dimension(715, 290));
+        tablaProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tablaProductos.setFillsViewportHeight(true);
         JScrollPane scroll = new JScrollPane(tablaProductos);
         
@@ -169,5 +186,64 @@ public class Pantalla extends JFrame
         panelTabla.add(btnQuitarFiltro);
         
         setVisible(true);
+    }
+    
+    public void implementarListeners()
+    {
+        btnQuitarFiltro.addActionListener(new ActionListener() 
+        {
+            public void actionPerformed(ActionEvent e) 
+            {
+                cargarTodosProductos();   
+            }
+        });
+        
+        btnFiltrar.addActionListener(new ActionListener() 
+        {
+            public void actionPerformed(ActionEvent e) 
+            {
+                cargarProductosFiltrados();
+            }
+        });
+        
+        tablaProductos.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
+        {
+            public void valueChanged(ListSelectionEvent e) 
+            {
+                int row = tablaProductos.getSelectedRow();
+                String value = dtm.getValueAt(row, 0).toString();
+                JOptionPane.showMessageDialog(null, value); 
+            }
+        });
+    }
+    
+    public void cargarTodosProductos()
+    {
+        txtBuscar.setText("");
+        Bodega bodega = new Bodega();
+        ArrayList<Producto> productos = bodega.getListaProductos();
+        dtm.setRowCount(0);
+        for(Producto p : productos)
+        {
+            Object[] row = {p.getCodigoBarras(), p.getNombre(), p.getMarca(), p.getPresentacion(), p.getTipo(), p.getCantidad(), p.getPrecio()};
+            dtm.addRow(row);
+        }
+    }
+    
+    public void cargarProductosFiltrados()
+    {
+        if (txtBuscar.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(this, "Debe colocar un filtro para la búsqueda");
+            return;
+        }
+        Bodega bodega = new Bodega();
+        ArrayList<Producto> productos = bodega.buscarProductos(txtBuscar.getText());
+        dtm.setRowCount(0);
+        for(Producto p : productos)
+        {
+            Object[] row = {p.getCodigoBarras(), p.getNombre(), p.getMarca(), p.getPresentacion(), p.getTipo(), p.getCantidad(), p.getPrecio()};
+            dtm.addRow(row);
+        }
     }
 }
