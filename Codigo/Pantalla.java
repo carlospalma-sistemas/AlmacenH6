@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.UIManager;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Pantalla extends JFrame
 {
@@ -244,6 +246,58 @@ public class Pantalla extends JFrame
                     }
                 }
             });
+        
+        btnActualizar.addActionListener(new ActionListener() 
+            {
+                public void actionPerformed(ActionEvent e) 
+                {
+                    modificarProducto();
+                }
+        });
+        
+        txtCodigo.addKeyListener(new KeyAdapter()
+            {
+                public void keyTyped(KeyEvent e)
+                {
+                    char tecla = e.getKeyChar();
+                    if (tecla < '0' || tecla > '9' && tecla != '\b')
+                    {
+                        e.consume();
+                    }
+                }
+            });
+        
+        txtCant.addKeyListener(new KeyAdapter()
+            {
+                public void keyTyped(KeyEvent e)
+                {
+                    char tecla = e.getKeyChar();
+                    if (tecla < '0' || tecla > '9' && tecla != '\b')
+                    {
+                        e.consume();
+                    }
+                }
+            });
+        
+        txtPrecio.addKeyListener(new KeyAdapter()
+            {
+                public void keyTyped(KeyEvent e)
+                {
+                    char tecla = e.getKeyChar();
+                    if (tecla < '0' || tecla > '9' && tecla != '\b')
+                    {
+                        e.consume();
+                    }
+                }
+            });
+        
+        btnEliminar.addActionListener(new ActionListener() 
+            {
+                public void actionPerformed(ActionEvent e) 
+                {
+                    eliminarProducto();
+                }
+            });
     }
 
     public void cargarTodosProductos()
@@ -342,6 +396,40 @@ public class Pantalla extends JFrame
         txtMarca.setEditable(activar);
         txtPresent.setEditable(activar);
         comboTipo.setEnabled(activar);
+    }
+    
+    public void modificarProducto()
+    {
+        if (txtId.getText().equals("") || txtCodigo.getText().equals("")  || txtCant.getText().equals("") || txtPrecio.getText().equals("")) 
+        {
+            JOptionPane.showMessageDialog(this, "Debe completar la información del producto para modificar");
+            return;
+        }
+        Bodega b = new Bodega();
+        int codigo = Integer.parseInt(txtCodigo.getText());
+        int cant = Integer.parseInt(txtCant.getText());
+        int precio = Integer.parseInt(txtPrecio.getText());
+        b.incrementarProducto(codigo, cant, precio);
+        limpiarFormulario();
+        cargarTodosProductos();
+    }
+    
+    public void eliminarProducto()
+    {
+        if (txtId.getText().equals("") || txtCodigo.getText().equals("")) 
+        {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar producto para eliminar");
+            return;
+        }
+        int opcion = JOptionPane.showConfirmDialog(this, "Está seguro que desea eliminar este producto?", "Advertencia", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (opcion == JOptionPane.YES_OPTION)
+        {
+            Bodega b = new Bodega();
+            int codigo = Integer.parseInt(txtCodigo.getText());
+            b.eliminarProducto(codigo);
+        }
+        limpiarFormulario();
+        cargarTodosProductos();
     }
 }
 
